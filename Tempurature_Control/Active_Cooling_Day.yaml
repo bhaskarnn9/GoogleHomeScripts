@@ -1,0 +1,47 @@
+metadata:
+  name: Activate Cooling Day SuperCoolOnOffLoop # Choose a short name that summarizes important starters and actions, like “Sunset lights”.
+  description: If temp is 75F or above, set thermostats to cool and 68F # Write a detailed description that includes everything the automation does, like “At sunset, on weekdays, close blinds, turn on lights to 50%, and play the sunset playlist on certain speakers.”
+
+automations:
+  starters:
+    - type: device.state.TemperatureSetting # Handles temperature points and modes of a thermostat device.
+      state: thermostatTemperatureAmbient
+      greaterThanOrEqualTo: 75F
+      device: Loft Thermostat - Loft
+
+  condition:
+    type: and
+    conditions:
+      - type: time.between
+        before: 22:00 # HH:MM (24 hours format). Adjust time as needed
+        after: 07:00 # HH:MM (24 hours format). Adjust time as needed
+      - type: home.state.HomePresence
+        state: homePresenceMode
+        is: HOME
+
+  actions:
+    # set Living Room Thermostat to cool mode
+    - type: device.command.ThermostatSetMode # Set the target operating mode for a thermostat device.
+      thermostatMode: cool
+      devices: Living Room Thermostat - Living Room
+    # delay
+    - type: time.delay
+      for: 5sec
+    # set Loft Thermostat to cool mode
+    - type: device.command.ThermostatSetMode # Set the target operating mode for a thermostat device.
+      thermostatMode: cool
+      devices: Loft Thermostat - Loft
+    # delay
+    - type: time.delay
+      for: 5sec
+    # set Living Room Thermostat to 69F
+    - type: device.command.ThermostatTemperatureSetpoint # Set the target temperature for a thermostat device.
+      thermostatTemperatureSetpoint: 69F
+      devices: Living Room Thermostat - Living Room
+    # delay
+    - type: time.delay
+      for: 5sec
+    # set Loft Thermostat to 69F
+    - type: device.command.ThermostatTemperatureSetpoint # Set the target temperature for a thermostat device.
+      thermostatTemperatureSetpoint: 69F
+      devices: Loft Thermostat - Loft
