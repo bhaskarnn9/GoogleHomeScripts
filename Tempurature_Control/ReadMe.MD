@@ -8,5 +8,5 @@ Note: Following actions can be nested in one action like following
         - Living Room Thermostat - Living Room
         - Loft Thermostat - Loft
   
-But I observed failures. At time only one of the thermostats were changed. 
+But I observed failures. At times, only one of the thermostats were changed. 
 Therefore I included sleep of 5 for every operation
